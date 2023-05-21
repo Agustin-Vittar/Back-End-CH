@@ -1,0 +1,24 @@
+[
+  {
+    "title": "Producto Prueba 2",
+    "description": "Este es un producto prueba",
+    "code": "abc1234",
+    "price": 2005,
+    "status": true,
+    "stock": 30,
+    "category": "Prueba2",
+    "thumbnail": ["img1", "img2", "img3"],
+    "id": 1
+  },
+  {
+    "title": "Producto Prueba 3",
+    "description": "Este es un producto prueba",
+    "code": "abc12345",
+    "price": 400,
+    "status": true,
+    "stock": 40,
+    "category": "Prueba4",
+    "thumbnail": ["img1", "img2", "img3"],
+    "id": 2
+  }
+]
