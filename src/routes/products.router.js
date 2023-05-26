@@ -71,11 +71,10 @@ productRouter.post("/", async (req, res) => {
 
 productRouter.delete("/:pid", async (req, res) => {
   const productId = Number(req.params.pid);
-
   try {
     const result = await productManager.deleteProduct(productId);
     res.status(200).json({ status: "Success", data: result });
-  } catch (err) {
+  } catch (error) {
     res.status(400).json({ status: "Error", data: error.message });
   }
 });

@@ -1,13 +1,1 @@
-[
-  {
-    "title": "Prueba3",
-    "description": "Con 1 field de más",
-    "code": "44",
-    "price": 1500000,
-    "status": true,
-    "stock": 30,
-    "category": "Prueba2",
-    "thumbnail": ["img1", "img2", "img3"],
-    "id": 1
-  }
-]
+[{"title":"Prueba3","description":"Con 1 field de más","code":"444","price":1500000,"status":true,"stock":30,"category":"Prueba2","thumbnail":["img1","img2","img3"],"id":2},{"title":"Modificado","description":"Cargando","code":"1234","price":1500000,"status":true,"stock":40,"category":"Prueba4","thumbnail":["img1","img2","img3"],"id":3},{"title":"Modificado","description":"Prueba4","code":"12345","price":1500000,"status":true,"stock":40,"category":"Prueba4","thumbnail":["img1","img2","img3"],"id":4}]

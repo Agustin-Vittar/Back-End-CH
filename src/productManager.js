@@ -149,8 +149,7 @@ export class ProductManager {
 
       return "Successful registration";
     } catch (error) {
-      console.error(error);
-      return error.message;
+      throw error;
     }
   }
 
@@ -165,7 +164,7 @@ export class ProductManager {
       fs.writeFileSync(this.#path, JSON.stringify(this.products));
       return console.log("Deleted product successfully");
     } else {
-      return console.log("Product not found");
+      throw new Error("Product not found");
     }
   }
 
