@@ -1,1 +1,13 @@
-[{"title":"Prueba3","description":"Con 1 field de más","code":"44","price":1500000,"status":true,"stock":30,"category":"Prueba2","thumbnail":["img1","img2","img3"],"id":1}]
+[
+  {
+    "title": "Prueba3",
+    "description": "Con 1 field de más",
+    "code": "44",
+    "price": 1500000,
+    "status": true,
+    "stock": 30,
+    "category": "Prueba2",
+    "thumbnail": ["img1", "img2", "img3"],
+    "id": 1
+  }
+]

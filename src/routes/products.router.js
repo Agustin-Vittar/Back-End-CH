@@ -59,16 +59,6 @@ productRouter.put("/:pid", async (req, res) => {
   }
 });
 
-/* productRouter.post("/", async (req, res) => {
-  const newProduct = req.body;
-  try {
-    const result = await productManager.addProduct(newProduct);
-    res.status(201).json({ status: "Success", data: result });
-  } catch (err) {
-    res.status(400).json({ status: "Error", data: err.message });
-  }
-}); */
-
 productRouter.post("/", async (req, res) => {
   const newProduct = req.body;
   try {
