@@ -1,1 +1,24 @@
-[{"title":"agregado recien 2","description":"Prueba4","code":"123455666","price":22222,"status":true,"stock":40,"category":"Prueba4","thumbnail":["img1","img2","img3"],"id":6},{"title":"agregado recien 4","description":"Prueba4","code":"12345","price":22222,"status":true,"stock":40,"category":"Prueba4","thumbnail":["img1","img2","img3"],"id":7}]
+[
+  {
+    "title": "agregado recien 2",
+    "description": "Prueba4",
+    "code": "123455666",
+    "price": 22222,
+    "status": true,
+    "stock": 40,
+    "category": "Prueba4",
+    "thumbnail": ["img1", "img2", "img3"],
+    "id": 6
+  },
+  {
+    "title": "agregado recien 4",
+    "description": "Prueba4",
+    "code": "12345",
+    "price": 22222,
+    "status": true,
+    "stock": 40,
+    "category": "Prueba4",
+    "thumbnail": ["img1", "img2", "img3"],
+    "id": 7
+  }
+]
