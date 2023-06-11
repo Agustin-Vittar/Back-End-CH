@@ -7,7 +7,7 @@ const productManager = new ProductManager();
 export class CartManager {
   static id = 0;
   carts = [];
-  path = "./cart.json";
+  path = "./src/dao/db/cart.json";
 
   constructor() {
     if (!fs.existsSync(this.path)) {

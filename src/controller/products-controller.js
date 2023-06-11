@@ -1,4 +1,4 @@
-import { ProductManager } from "../productManager.js";
+import { ProductManager } from "../dao/productManager.js";
 import { Router } from "express";
 import express from "express";
 
@@ -20,4 +20,8 @@ productController.get("/", async (req, res) => {
 
 productController.get("/realtimeproducts", (req, res) => {
   res.render("realTimeProducts", {});
+});
+
+productController.get("/chat", (req, res) => {
+  res.render("chat", {});
 });

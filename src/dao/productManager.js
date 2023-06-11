@@ -4,11 +4,11 @@ export class ProductManager {
   #path;
 
   constructor() {
-    if (!fs.existsSync("./productos.json")) {
-      fs.writeFileSync("./productos.json", "[]", "utf-8");
+    if (!fs.existsSync("./src/dao/db/productos.json")) {
+      fs.writeFileSync("./src/dao/db/productos.json", "[]", "utf-8");
     }
     this.products = [];
-    this.#path = "./productos.json";
+    this.#path = "./src/dao/db/productos.json";
     this.products = JSON.parse(fs.readFileSync(this.#path, "utf-8"));
     if (this.products.length > 0) {
       ProductManager.id = this.products[this.products.length - 1].id;
