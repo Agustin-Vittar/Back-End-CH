@@ -1,7 +1,10 @@
 import { Router } from "express";
 import express from "express";
+import faker from "faker";
+
 //import { ProductManager } from "../productManager.js";
 import { ProductService } from "../services/products.service.js";
+import { ProductModel } from "../dao/models/products.model.js";
 
 export const productRouter = Router();
 //const productManager = new ProductManager();
@@ -13,16 +16,16 @@ productRouter.use(express.urlencoded({ extended: true }));
 productRouter.get("/", async (req, res) => {
   try {
     const allProducts = await productService.getAllProducts();
-    const limit = req.query.limit;
+    const limite = req.query.limite;
 
-    if (!limit) {
+    if (!limite) {
       res.status(200).send({ status: "Success", data: allProducts });
-    } else if (isNaN(limit)) {
+    } else if (isNaN(limite)) {
       res
         .status(400)
         .send({ status: "Error", data: "Limit should be a number" });
-    } else if (limit > 0 && limit <= allProducts.length) {
-      let productsLimited = allProducts.slice(0, limit);
+    } else if (limite > 0 && limite <= allProducts.length) {
+      let productsLimited = allProducts.slice(0, limite);
       res.status(200).send({ status: "Success", data: productsLimited });
     } else {
       res.status(400).send({
@@ -36,6 +39,40 @@ productRouter.get("/", async (req, res) => {
       data: "An error occurred while retrieving products",
     });
   }
+});
+
+productRouter.get("/productos", async (req, res) => {
+  const { limit, page } = req.query;
+  const products = await ProductModel.paginate(
+    {},
+    { limit: limit || 10, page: page || 1 }
+  );
+
+  let productos = products.docs.map((products) => {
+    return {
+      title: products.title,
+      description: products.description,
+      code: products.code,
+      price: products.price,
+      status: products.status,
+      stock: products.stock,
+      category: products.category,
+      thumbnail: products.thumbnail,
+      id: products._id.toString(),
+    };
+  });
+
+  console.log(products);
+
+  return res.status(200).render("productos", {
+    productos: productos,
+    totalPages: products.totalPages,
+    prevPage: products.prevPage,
+    nextPage: products.nextPage,
+    page: products.page,
+    hasPrevPage: products.hasPrevPage,
+    hasNextPage: products.hasNextPage,
+  });
 });
 
 productRouter.get("/:pid", async (req, res) => {
@@ -77,6 +114,36 @@ productRouter.delete("/:pid", async (req, res) => {
     res.status(400).json({ status: "Error", data: error.message });
   }
 });
+
+/* const numObjects = 8; // Número de objetos aleatorios a generar
+const randomCode = faker.random.number({ min: 10000, max: 99999 });
+const randomObjects = [];
+for (let i = 0; i < numObjects; i++) {
+  const randomObject = {
+    title: faker.commerce.productName(),
+    description: faker.lorem.sentence(),
+    code: randomCode,
+    price: faker.commerce.price(),
+    status: faker.random.boolean(),
+    stock: faker.random.number(),
+    category: faker.commerce.department(),
+    thumbnail: [
+      faker.image.imageUrl(),
+      faker.image.imageUrl(),
+      faker.image.imageUrl(),
+    ],
+  };
+  randomObjects.push(randomObject);
+}
+
+// Guarda los objetos aleatorios en la base de datos utilizando Mongoose
+ProductModel.insertMany(randomObjects)
+  .then((savedObjects) => {
+    console.log(savedObjects);
+  })
+  .catch((error) => {
+    console.error(error);
+  }); */
 
 /* 
 

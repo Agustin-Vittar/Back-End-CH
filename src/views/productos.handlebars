@@ -1,0 +1,54 @@
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0"
+/>
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0"
+/>
+<div>
+  {{#each productos}}
+    <p>Título: {{this.title}}</p>
+    <p>Descripción: {{this.description}}</p>
+    <p>Code: {{this.code}}</p>
+    <p>Precio: {{this.price}}</p>
+    <p>Status: {{this.status}}</p>
+    <p>Stock: {{this.stock}}</p>
+    <p>Categoría: {{this.category}}</p>
+    <p>Img: {{this.thumbnail}}</p>
+    <p>ID: {{this.id}}</p>
+    <hr />
+  {{/each}}
+  <hr />
+  <br />
+  totalPages:
+  {{totalPages}}
+  prevPage:
+  {{prevPage}}
+  nextPage:
+  {{nextPage}}
+  page:
+  {{page}}
+  hasPrevPage:
+  {{hasPrevPage}}
+  hasNextPage:
+  {{hasNextPage}}
+  <hr />
+  <br />
+  {{#if hasPrevPage}}
+    <a
+      style="text-decoration: none;"
+      href="http://localhost:8080/api/products/productos?page={{prevPage}}"
+    ><span class="material-symbols-outlined">
+        arrow_back
+      </span></a>
+  {{/if}}
+  {{#if hasNextPage}}
+    <a
+      style="text-decoration: none;"
+      href="http://localhost:8080/api/products/productos?page={{nextPage}}"
+    ><span class="material-symbols-outlined">
+        arrow_forward
+      </span></a>
+  {{/if}}
+</div>
