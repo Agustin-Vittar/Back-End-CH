@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import { Schema, Types, model } from "mongoose";
 
 export const CartModel = model(
   "carts",
@@ -6,7 +6,7 @@ export const CartModel = model(
     id: { type: Number, required: true },
     products: [
       {
-        id: { type: Number, required: true },
+        id: { type: Types.ObjectId, ref: "products", required: true },
         quantity: { type: Number, required: true, default: 1 },
       },
     ],

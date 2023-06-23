@@ -42,37 +42,51 @@ productRouter.get("/", async (req, res) => {
 });
 
 productRouter.get("/productos", async (req, res) => {
-  const { limit, page } = req.query;
-  const products = await ProductModel.paginate(
-    {},
-    { limit: limit || 10, page: page || 1 }
-  );
+  const { limit, page, sort, query } = req.query;
 
-  let productos = products.docs.map((products) => {
-    return {
-      title: products.title,
-      description: products.description,
-      code: products.code,
-      price: products.price,
-      status: products.status,
-      stock: products.stock,
-      category: products.category,
-      thumbnail: products.thumbnail,
-      id: products._id.toString(),
-    };
-  });
+  const options = {
+    limit: parseInt(limit) || 10,
+    page: parseInt(page) || 1,
+  };
 
-  console.log(products);
+  const searchOptions = query ? { category: query } : {};
 
-  return res.status(200).render("productos", {
-    productos: productos,
-    totalPages: products.totalPages,
-    prevPage: products.prevPage,
-    nextPage: products.nextPage,
-    page: products.page,
-    hasPrevPage: products.hasPrevPage,
-    hasNextPage: products.hasNextPage,
-  });
+  if (sort === "asc") {
+    options.sort = { price: 1 };
+  } else if (sort === "desc") {
+    options.sort = { price: -1 };
+  }
+
+  try {
+    const products = await ProductModel.paginate(searchOptions, options);
+
+    const productos = products.docs.map((products) => {
+      return {
+        title: products.title,
+        description: products.description,
+        code: products.code,
+        price: products.price,
+        status: products.status,
+        stock: products.stock,
+        category: products.category,
+        thumbnail: products.thumbnail,
+        id: products._id.toString(),
+      };
+    });
+
+    return res.status(200).render("productos", {
+      productos: productos,
+      totalPages: products.totalPages,
+      prevPage: products.prevPage,
+      nextPage: products.nextPage,
+      page: products.page,
+      hasPrevPage: products.hasPrevPage,
+      hasNextPage: products.hasNextPage,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Server error" });
+  }
 });
 
 productRouter.get("/:pid", async (req, res) => {

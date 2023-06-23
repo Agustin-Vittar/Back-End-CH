@@ -17,8 +17,11 @@
     <p>Categoría: {{this.category}}</p>
     <p>Img: {{this.thumbnail}}</p>
     <p>ID: {{this.id}}</p>
+    <button class="add-cart" onclick="addToCart('{{this.id}}')">Agregar al
+      carrito</button>
     <hr />
   {{/each}}
+  <a href="http://localhost:8080/api/carts/cart/1">Ver el Carrito</a>
   <hr />
   <br />
   totalPages:
@@ -52,3 +55,5 @@
       </span></a>
   {{/if}}
 </div>
+
+<script src="/js/productsToCart.js"></script>
