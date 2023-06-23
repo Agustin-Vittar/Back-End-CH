@@ -2,11 +2,16 @@
   <h2>Carrito de compras</h2>
 
   {{#each cartProduct}}
-    <h3 class="productTitle">{{this.id.title}}</h3>
-    <ul class="infoList">
-      <li class="productCode">code: <span>{{this.id.code}}</span></li>
-      <li class="orderQty">Quantity: <span>{{this.quantity}}</span></li>
-      <li class="productPrice">price: <span>{{this.id.price}}$</span></li>
+    <h3>{{this.id.title}}</h3>
+    <ul>
+      <li>Descripción: {{this.id.description}}</li>
+      <li>Code: <span>{{this.id.code}}</span></li>
+      <li>Precio: <span>{{this.id.price}}$</span></li>
+      <li>Quantity: <span>{{this.quantity}}</span></li>
+      <li>Status: <span>{{this.id.status}}</span></li>
+      <li>Stock: {{this.id.stock}}</li>
+      <li>Categoría: {{this.id.category}}</li>
+      <li>Img: {{this.id.thumbnail}}</li>
     </ul>
   {{/each}}
 
