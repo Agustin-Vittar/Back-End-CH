@@ -101,9 +101,6 @@ export class CartService {
       throw new Error("Error removing product from cart");
     }
   }
-  /* foundCart.products = foundCart.products.filter(
-        (product) => product.id.toString() !== productId
-      ); */
 
   async updateCartProducts(cartId, newProducts) {
     try {
