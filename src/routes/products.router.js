@@ -14,34 +14,6 @@ productRouter.use(express.json());
 productRouter.use(express.urlencoded({ extended: true }));
 
 productRouter.get("/", async (req, res) => {
-  try {
-    const allProducts = await productService.getAllProducts();
-    const limite = req.query.limite;
-
-    if (!limite) {
-      res.status(200).send({ status: "Success", data: allProducts });
-    } else if (isNaN(limite)) {
-      res
-        .status(400)
-        .send({ status: "Error", data: "Limit should be a number" });
-    } else if (limite > 0 && limite <= allProducts.length) {
-      let productsLimited = allProducts.slice(0, limite);
-      res.status(200).send({ status: "Success", data: productsLimited });
-    } else {
-      res.status(400).send({
-        status: "Error",
-        data: "The limit entered is incorrect or exceeds the number of products",
-      });
-    }
-  } catch (err) {
-    res.status(500).send({
-      status: "Error",
-      data: "An error occurred while retrieving products",
-    });
-  }
-});
-
-productRouter.get("/productos", async (req, res) => {
   const { limit, page, sort, query } = req.query;
 
   const options = {
@@ -74,14 +46,28 @@ productRouter.get("/productos", async (req, res) => {
       };
     });
 
-    return res.status(200).render("productos", {
-      productos: productos,
+    let prevLink = null;
+    let nextLink = null;
+
+    if (products.hasPrevPage) {
+      prevLink = `?limit=${options.limit}&page=${products.prevPage}&sort=${sort}`;
+    }
+
+    if (products.hasNextPage) {
+      nextLink = `?limit=${options.limit}&page=${products.nextPage}&sort=${sort}`;
+    }
+
+    return res.status(200).json({
+      status: "Success",
+      payload: productos,
       totalPages: products.totalPages,
       prevPage: products.prevPage,
       nextPage: products.nextPage,
       page: products.page,
       hasPrevPage: products.hasPrevPage,
       hasNextPage: products.hasNextPage,
+      prevLink,
+      nextLink,
     });
   } catch (error) {
     console.error(error);
@@ -163,17 +149,17 @@ ProductModel.insertMany(randomObjects)
 
 productRouter.get("/", async (req, res) => {
   try {
-    const allProducts = await productManager.getProducts();
-    const limit = req.query.limit;
+    const allProducts = await productService.getAllProducts();
+    const limite = req.query.limite;
 
-    if (!limit) {
+    if (!limite) {
       res.status(200).send({ status: "Success", data: allProducts });
-    } else if (isNaN(limit)) {
+    } else if (isNaN(limite)) {
       res
         .status(400)
         .send({ status: "Error", data: "Limit should be a number" });
-    } else if (limit > 0 && limit <= allProducts.length) {
-      let productsLimited = allProducts.slice(0, limit);
+    } else if (limite > 0 && limite <= allProducts.length) {
+      let productsLimited = allProducts.slice(0, limite);
       res.status(200).send({ status: "Success", data: productsLimited });
     } else {
       res.status(400).send({

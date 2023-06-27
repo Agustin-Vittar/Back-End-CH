@@ -21,7 +21,7 @@
       carrito</button>
     <hr />
   {{/each}}
-  <a href="http://localhost:8080/api/carts/cart/1">Ver el Carrito</a>
+  <a href="http://localhost:8080/carts/1">Ver el Carrito</a>
   <hr />
   <br />
   totalPages:
@@ -41,7 +41,7 @@
   {{#if hasPrevPage}}
     <a
       style="text-decoration: none;"
-      href="http://localhost:8080/api/products/productos?page={{prevPage}}"
+      href="http://localhost:8080/productos?page={{prevPage}}"
     ><span class="material-symbols-outlined">
         arrow_back
       </span></a>
@@ -49,7 +49,7 @@
   {{#if hasNextPage}}
     <a
       style="text-decoration: none;"
-      href="http://localhost:8080/api/products/productos?page={{nextPage}}"
+      href="http://localhost:8080/productos?page={{nextPage}}"
     ><span class="material-symbols-outlined">
         arrow_forward
       </span></a>

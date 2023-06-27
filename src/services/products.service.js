@@ -140,6 +140,11 @@ export class ProductService {
       throw new Error(`Error creating product: ${error.message}`);
     }
   }
+
+  async deleteProduct(id) {
+    const productDeleted = await ProductModel.deleteOne({ _id: id });
+    return productDeleted;
+  }
 }
 
 /* async getAllProducts() {

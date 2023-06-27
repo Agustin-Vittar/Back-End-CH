@@ -4,11 +4,13 @@ import handlebars from "express-handlebars";
 import { ProductManager } from "./src/dao/productManager.js";
 import { cartsRouter } from "./src/routes/carts.router.js";
 import { productRouter } from "./src/routes/products.router.js";
+
 import { __dirname } from "./src/utils.js";
 import { productController } from "./src/controller/products-controller.js";
 import { Server } from "socket.io";
 import { connectMongo } from "./src/utils.js";
 import { MsgModel } from "./src/dao/models/msgs.model.js";
+import { viewRouter } from "./src/routes/view.router.js";
 
 const app = express();
 const port = 8080;
@@ -31,7 +33,7 @@ app.use("/api/products", productRouter);
 
 app.use("/api/carts", cartsRouter);
 
-app.use("/", productController);
+app.use("/", viewRouter);
 
 const httpServer = app.listen(port, () => {
   console.log(`Server running on port http://localhost:${port}`);

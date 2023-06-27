@@ -86,15 +86,24 @@ export class CartService {
         throw new Error("Cart not found");
       }
 
-      foundCart.products = foundCart.products.filter(
-        (product) => product.id !== productId
+      const productIndex = foundCart.products.findIndex(
+        (product) => product.id.toString() === productId.toString()
       );
+
+      if (productIndex === -1) {
+        throw new Error();
+      }
+
+      foundCart.products.splice(productIndex, 1);
 
       await foundCart.save();
     } catch (error) {
       throw new Error("Error removing product from cart");
     }
   }
+  /* foundCart.products = foundCart.products.filter(
+        (product) => product.id.toString() !== productId
+      ); */
 
   async updateCartProducts(cartId, newProducts) {
     try {
@@ -121,11 +130,15 @@ export class CartService {
       }
 
       const foundProduct = foundCart.products.find(
-        (products) => products.id === productId
+        (products) => products.id.toString() === productId.toString()
       );
 
       if (!foundProduct) {
         throw new Error("Product not found in cart");
+      }
+
+      if (quantity <= 0) {
+        throw new Error("Quantity must be greater than 0");
       }
 
       foundProduct.quantity = quantity;

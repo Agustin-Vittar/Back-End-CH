@@ -29,21 +29,6 @@ cartsRouter.get("/:cid", async (req, res) => {
   }
 });
 
-cartsRouter.get("/cart/:cid", async (req, res) => {
-  try {
-    const cartId = Number(req.params.cid);
-    const cart = await cartService.getCartID(cartId);
-    const cartProduct = cart.products.map((prod) => prod.toJSON());
-
-    return res.status(200).render("cart", {
-      cart,
-      cartProduct,
-    });
-  } catch (error) {
-    return res.status(500).json({ error: "Server error" });
-  }
-});
-
 cartsRouter.post("/:cid/product/:pid", async (req, res) => {
   try {
     const cartId = Number(req.params.cid);
@@ -78,7 +63,7 @@ cartsRouter.put("/:cid", async (req, res) => {
         Object.keys(product).length !== 2 ||
         !product.hasOwnProperty("id") ||
         !product.hasOwnProperty("quantity") ||
-        product.quantity < 0
+        product.quantity <= 0
     );
     if (invalidProducts.length > 0) {
       const invalidProductIds = invalidProducts.map((product) => product.id);
