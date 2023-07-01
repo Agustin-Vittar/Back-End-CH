@@ -1,21 +1,35 @@
 //@ts-check
 import express from "express";
 import handlebars from "express-handlebars";
+import session from "express-session";
+import MongoStore from "connect-mongo";
 import { ProductManager } from "./src/dao/productManager.js";
 import { cartsRouter } from "./src/routes/carts.router.js";
 import { productRouter } from "./src/routes/products.router.js";
-
+import { viewRouter } from "./src/routes/view.router.js";
+import { loginRouter } from "./src/routes/login.router.js";
 import { __dirname } from "./src/utils.js";
-import { productController } from "./src/controller/products-controller.js";
 import { Server } from "socket.io";
 import { connectMongo } from "./src/utils.js";
 import { MsgModel } from "./src/dao/models/msgs.model.js";
-import { viewRouter } from "./src/routes/view.router.js";
 
 const app = express();
 const port = 8080;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use(
+  session({
+    store: MongoStore.create({
+      mongoUrl:
+        "mongodb+srv://joseagusvittar:uASeHnVhyUW27POM@vittar-cluster.ddxfzsa.mongodb.net/ecommerce?retryWrites=true&w=majority",
+      ttl: 86400 * 7,
+    }),
+    secret: "secret-pass",
+    resave: true,
+    saveUninitialized: true,
+  })
+);
 
 //Mongo
 
@@ -32,6 +46,8 @@ const productManager = new ProductManager();
 app.use("/api/products", productRouter);
 
 app.use("/api/carts", cartsRouter);
+
+app.use("/api/sessions", loginRouter);
 
 app.use("/", viewRouter);
 

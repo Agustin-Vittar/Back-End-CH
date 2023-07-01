@@ -1,13 +1,14 @@
-import express from "express";
 import { Router } from "express";
 import { ProductModel } from "../dao/models/products.model.js";
 import { CartService } from "../services/carts.service.js";
+import { checkAdmin, checkUser } from "../dao/middlewares/auth.js";
 
 export const viewRouter = Router();
 const cartService = new CartService();
 
 viewRouter.get("/productos", async (req, res) => {
   const { limit, page, sort, query } = req.query;
+  const { firstName, lastName, email, age, role } = req.session;
 
   const options = {
     limit: parseInt(limit) || 10,
@@ -40,6 +41,11 @@ viewRouter.get("/productos", async (req, res) => {
     });
 
     return res.status(200).render("productos", {
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+      age: age,
+      role: role,
       productos: productos,
       totalPages: products.totalPages,
       prevPage: products.prevPage,
@@ -63,6 +69,54 @@ viewRouter.get("/carts/:cid", async (req, res) => {
     return res.status(200).render("cart", {
       cart,
       cartProduct,
+    });
+  } catch (error) {
+    return res.status(500).json({ error: "Server error" });
+  }
+});
+
+viewRouter.get("/login", (req, res) => {
+  try {
+    return res.status(200).render("login-form");
+  } catch (error) {
+    return res.status(500).json({ error: "Server error" });
+  }
+});
+
+viewRouter.get("/register", (req, res) => {
+  try {
+    return res.status(200).render("register-form");
+  } catch (error) {
+    return res.status(500).json({ error: "Server error" });
+  }
+});
+
+viewRouter.get("/logout", (req, res) => {
+  try {
+    req.session.destroy((error) => {
+      if (error) {
+        return res.render("error-page");
+      }
+    });
+    return res.redirect("/login");
+  } catch (error) {
+    return res.status(500).json({ error: "Server error" });
+  }
+});
+
+viewRouter.get("/profile", checkUser, (req, res) => {
+  try {
+    res.status(200).render("profile");
+  } catch (error) {
+    return res.status(500).json({ error: "Server error" });
+  }
+});
+
+viewRouter.get("/admin", checkAdmin, (req, res) => {
+  try {
+    const { role } = req.session;
+    res.status(200).render("admin", {
+      role: role,
     });
   } catch (error) {
     return res.status(500).json({ error: "Server error" });
