@@ -12,6 +12,8 @@ import { __dirname } from "./src/utils.js";
 import { Server } from "socket.io";
 import { connectMongo } from "./src/utils.js";
 import { MsgModel } from "./src/dao/models/msgs.model.js";
+import { iniPassport } from "./src/config/passport.config.js";
+import passport from "passport";
 
 const app = express();
 const port = 8080;
@@ -30,6 +32,12 @@ app.use(
     saveUninitialized: true,
   })
 );
+
+// Passport
+
+iniPassport();
+app.use(passport.initialize());
+app.use(passport.session());
 
 //Mongo
 

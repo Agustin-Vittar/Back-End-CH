@@ -9,5 +9,5 @@ export function checkAdmin(req, res, next) {
   if (req.session.role === "admin") {
     return next();
   }
-  return res.status(401).render("error-page");
+  return res.status(403).render("error-page");
 }

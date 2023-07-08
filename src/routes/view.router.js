@@ -7,23 +7,23 @@ export const viewRouter = Router();
 const cartService = new CartService();
 
 viewRouter.get("/productos", async (req, res) => {
-  const { limit, page, sort, query } = req.query;
-  const { firstName, lastName, email, age, role } = req.session;
-
-  const options = {
-    limit: parseInt(limit) || 10,
-    page: parseInt(page) || 1,
-  };
-
-  const searchOptions = query ? { category: query } : {};
-
-  if (sort === "asc") {
-    options.sort = { price: 1 };
-  } else if (sort === "desc") {
-    options.sort = { price: -1 };
-  }
-
   try {
+    const { limit, page, sort, query } = req.query;
+    const { firstName, lastName, email, age, role } = req.session.user;
+
+    const options = {
+      limit: parseInt(limit) || 10,
+      page: parseInt(page) || 1,
+    };
+
+    const searchOptions = query ? { category: query } : {};
+
+    if (sort === "asc") {
+      options.sort = { price: 1 };
+    } else if (sort === "desc") {
+      options.sort = { price: -1 };
+    }
+
     const products = await ProductModel.paginate(searchOptions, options);
 
     const productos = products.docs.map((products) => {
