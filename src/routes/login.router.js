@@ -36,6 +36,7 @@ loginRouter.post(
       age: req.user.age,
       email: req.user.email,
       role: req.user.role,
+      _id: req.user._id.toString(),
     };
     return res.redirect("/productos");
   }
@@ -58,6 +59,19 @@ loginRouter.get(
     res.redirect("/productos");
   }
 );
+
+loginRouter.get("/current", (req, res) => {
+  try {
+    return res.status(200).json({
+      status: "Success",
+      message: "Session data",
+      payload: req.session.user || {},
+    });
+  } catch (error) {
+    return res.status(500).json({ status: "Error", message: "Server error" });
+  }
+});
+
 /* loginRouter.post("/register", async (req, res) => {
   const { firstName, lastName, age, email, password } = req.body;
   if (!firstName || !lastName || !age || !email || !password) {

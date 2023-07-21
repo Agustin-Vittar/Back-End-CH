@@ -9,7 +9,7 @@ const cartService = new CartService();
 viewRouter.get("/productos", async (req, res) => {
   try {
     const { limit, page, sort, query } = req.query;
-    const { firstName, lastName, email, age, role } = req.session.user;
+    const { firstName, lastName, email, age, role } = req.session.user || {};
 
     const options = {
       limit: parseInt(limit) || 10,

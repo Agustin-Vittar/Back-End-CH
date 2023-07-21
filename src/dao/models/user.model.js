@@ -27,6 +27,9 @@ const schema = new Schema({
     type: Number,
     max: 100,
   },
+  cart: {
+    type: String,
+  },
 });
 
 export const UserModel = model("users", schema);
