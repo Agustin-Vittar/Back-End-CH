@@ -3,117 +3,24 @@ import express from "express";
 import faker from "faker";
 
 //import { ProductManager } from "../productManager.js";
-import { ProductService } from "../services/products.service.js";
-import { ProductModel } from "../dao/models/products.model.js";
+import { ProductController } from "../controller/products-controller.js";
 
 export const productRouter = Router();
 //const productManager = new ProductManager();
-const productService = new ProductService();
+const productController = new ProductController();
 
 productRouter.use(express.json());
 productRouter.use(express.urlencoded({ extended: true }));
 
-productRouter.get("/", async (req, res) => {
-  const { limit, page, sort, query } = req.query;
+productRouter.get("/", productController.getAllProducts);
 
-  const options = {
-    limit: parseInt(limit) || 10,
-    page: parseInt(page) || 1,
-  };
+productRouter.get("/:pid", productController.getProductByID);
 
-  const searchOptions = query ? { category: query } : {};
+productRouter.put("/:pid", productController.updateProduct);
 
-  if (sort === "asc") {
-    options.sort = { price: 1 };
-  } else if (sort === "desc") {
-    options.sort = { price: -1 };
-  }
+productRouter.post("/", productController.createProduct);
 
-  try {
-    const products = await ProductModel.paginate(searchOptions, options);
-
-    const productos = products.docs.map((products) => {
-      return {
-        title: products.title,
-        description: products.description,
-        code: products.code,
-        price: products.price,
-        status: products.status,
-        stock: products.stock,
-        category: products.category,
-        thumbnail: products.thumbnail,
-        id: products._id.toString(),
-      };
-    });
-
-    let prevLink = null;
-    let nextLink = null;
-
-    if (products.hasPrevPage) {
-      prevLink = `?limit=${options.limit}&page=${products.prevPage}&sort=${sort}`;
-    }
-
-    if (products.hasNextPage) {
-      nextLink = `?limit=${options.limit}&page=${products.nextPage}&sort=${sort}`;
-    }
-
-    return res.status(200).json({
-      status: "Success",
-      payload: productos,
-      totalPages: products.totalPages,
-      prevPage: products.prevPage,
-      nextPage: products.nextPage,
-      page: products.page,
-      hasPrevPage: products.hasPrevPage,
-      hasNextPage: products.hasNextPage,
-      prevLink,
-      nextLink,
-    });
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ error: "Server error" });
-  }
-});
-
-productRouter.get("/:pid", async (req, res) => {
-  try {
-    const productId = await productService.getProductId(req.params.pid);
-    res.status(200).json({ status: "Success", data: productId });
-  } catch (error) {
-    res.status(400).json({ status: "Error", data: error.message });
-  }
-});
-
-productRouter.put("/:pid", async (req, res) => {
-  try {
-    const productId = req.params.pid;
-    const updates = req.body;
-    const result = await productService.updateProduct(productId, updates);
-    res.status(200).json({ status: "Success", data: result });
-  } catch (error) {
-    res.status(400).json({ status: "Error", data: error.message });
-  }
-});
-
-productRouter.post("/", async (req, res) => {
-  const newProduct = req.body;
-  try {
-    const result = await productService.createProduct(newProduct);
-    res.status(201).json({ status: "Success", data: result });
-  } catch (err) {
-    res.status(400).json({ status: "Error", data: err.message });
-  }
-});
-
-productRouter.delete("/:pid", async (req, res) => {
-  const productId = req.params.pid;
-  try {
-    const result = await productService.deleteProduct(productId);
-    res.status(200).json({ status: "Success", data: result });
-  } catch (error) {
-    res.status(400).json({ status: "Error", data: error.message });
-  }
-});
+productRouter.delete("/:pid", productController.deleteProduct);
 
 /* const numObjects = 8; // Número de objetos aleatorios a generar
 const randomCode = faker.random.number({ min: 10000, max: 99999 });

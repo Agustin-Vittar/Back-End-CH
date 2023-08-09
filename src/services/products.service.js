@@ -1,5 +1,3 @@
-//@ts-check
-
 import { ProductModel } from "../dao/models/products.model.js";
 
 export class ProductService {
