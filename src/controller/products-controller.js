@@ -79,6 +79,7 @@ export class ProductController {
 
   updateProduct = async (req, res) => {
     try {
+<<<<<<< HEAD
       const productId = req.params.pid;
       const updates = req.body;
       const result = await this.productService.updateProduct(
@@ -86,6 +87,17 @@ export class ProductController {
         updates
       );
       res.status(200).json({ status: "Success", data: result });
+=======
+      const id = req.params.pid;
+      const updates = req.body;
+      console.log(updates);
+      const result = await this.productService.updateProducts(id, updates);
+      if (result instanceof Error) {
+        res.status(400).json({ status: "Error", data: result.message });
+      } else {
+        res.status(200).json({ status: "Success", data: result });
+      }
+>>>>>>> 9460772 (Preentrega Nº 3)
     } catch (error) {
       res.status(400).json({ status: "Error", data: error.message });
     }

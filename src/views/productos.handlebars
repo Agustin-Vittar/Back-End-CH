@@ -12,6 +12,10 @@
   <p>Email: {{email}}</p>
   <p>Edad: {{age}}</p>
   <p>Rol: {{role}}</p>
+<<<<<<< HEAD
+=======
+  <p>cartID: {{cartID}}</p>
+>>>>>>> 9460772 (Preentrega Nº 3)
 
   <a href="/logout">Logout</a>
 </div>
@@ -27,11 +31,22 @@
     <p>Categoría: {{this.category}}</p>
     <p>Img: {{this.thumbnail}}</p>
     <p>ID: {{this.id}}</p>
+<<<<<<< HEAD
     <button class="add-cart" onclick="addToCart('{{this.id}}')">Agregar al
       carrito</button>
     <hr />
   {{/each}}
   <a href="http://localhost:8080/carts/1">Ver el Carrito</a>
+=======
+
+    <button
+      class="add-cart"
+      onclick="addToCart('{{cartID}}', '{{this.id}}')"
+    >Agregar al carrito</button>
+    <hr />
+  {{/each}}
+  <a href="http://localhost:8080/carts/{{this.cartID}}">Ver el Carrito</a>
+>>>>>>> 9460772 (Preentrega Nº 3)
   <hr />
   <br />
   totalPages:

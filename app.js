@@ -15,16 +15,31 @@ import { MsgModel } from "./src/dao/models/msgs.model.js";
 import { iniPassport } from "./src/config/passport.config.js";
 import passport from "passport";
 
+<<<<<<< HEAD
 const app = express();
 const port = 8080;
+=======
+import { entorno } from "./src/config/env-config.js";
+
+import { productController } from "./src/routes/productsRealtime.router.js";
+
+//console.log(entorno);
+
+const app = express();
+const port = entorno.PORT;
+>>>>>>> 9460772 (Preentrega Nº 3)
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(
   session({
     store: MongoStore.create({
+<<<<<<< HEAD
       mongoUrl:
         "mongodb+srv://joseagusvittar:uASeHnVhyUW27POM@vittar-cluster.ddxfzsa.mongodb.net/ecommerce?retryWrites=true&w=majority",
+=======
+      mongoUrl: entorno.MONGO_URL,
+>>>>>>> 9460772 (Preentrega Nº 3)
       ttl: 86400 * 7,
     }),
     secret: "secret-pass",
@@ -59,6 +74,11 @@ app.use("/api/sessions", loginRouter);
 
 app.use("/", viewRouter);
 
+<<<<<<< HEAD
+=======
+app.use("/realtime", productController);
+
+>>>>>>> 9460772 (Preentrega Nº 3)
 const httpServer = app.listen(port, () => {
   console.log(`Server running on port http://localhost:${port}`);
 });
@@ -74,8 +94,13 @@ socketServer.on("connection", async (socket) => {
 
   socket.on("msg_front_to_back", async (msg) => {
     const msgCreated = await MsgModel.create(msg);
+<<<<<<< HEAD
     const msgs = await MsgModel.find({});
     socketServer.sockets.emit("all_msgs", msgs);
+=======
+    const updatedMsgs = await MsgModel.find({});
+    socketServer.sockets.emit("all_msgs", updatedMsgs);
+>>>>>>> 9460772 (Preentrega Nº 3)
   });
 });
 

@@ -1,5 +1,10 @@
 import { CartModel } from "../dao/models/carts.model.js";
 import { ProductModel } from "../dao/models/products.model.js";
+<<<<<<< HEAD
+=======
+import { TicketModel } from "../dao/models/ticket.model.js";
+import { generateTicketCode } from "../utils.js";
+>>>>>>> 9460772 (Preentrega Nº 3)
 import { ProductService } from "./products.service.js";
 
 const productService = new ProductService();
@@ -17,7 +22,10 @@ export class CartService {
   async generateCart() {
     try {
       const newCart = {
+<<<<<<< HEAD
         id: await this.generateID(),
+=======
+>>>>>>> 9460772 (Preentrega Nº 3)
         products: [],
       };
 
@@ -28,9 +36,17 @@ export class CartService {
     }
   }
 
+<<<<<<< HEAD
   async getCartID(id) {
     try {
       const foundCart = await CartModel.findOne({ id }).populate("products.id");
+=======
+  async getCartID(cartId) {
+    try {
+      const foundCart = await CartModel.findOne({ _id: cartId }).populate(
+        "products.id"
+      );
+>>>>>>> 9460772 (Preentrega Nº 3)
 
       if (!foundCart) {
         throw new Error("Cart not found");
@@ -44,7 +60,11 @@ export class CartService {
 
   async addProductsCart(cartId, productId) {
     try {
+<<<<<<< HEAD
       const foundCart = await CartModel.findOne({ id: cartId });
+=======
+      const foundCart = await CartModel.findOne({ _id: cartId });
+>>>>>>> 9460772 (Preentrega Nº 3)
 
       if (!foundCart) {
         throw new Error("Cart not found");
@@ -80,7 +100,11 @@ export class CartService {
 
   async removeProductFromCart(cartId, productId) {
     try {
+<<<<<<< HEAD
       const foundCart = await CartModel.findOne({ id: cartId });
+=======
+      const foundCart = await CartModel.findOne({ _id: cartId });
+>>>>>>> 9460772 (Preentrega Nº 3)
 
       if (!foundCart) {
         throw new Error("Cart not found");
@@ -104,7 +128,11 @@ export class CartService {
 
   async updateCartProducts(cartId, newProducts) {
     try {
+<<<<<<< HEAD
       const foundCart = await CartModel.findOne({ id: cartId });
+=======
+      const foundCart = await CartModel.findOne({ _id: cartId });
+>>>>>>> 9460772 (Preentrega Nº 3)
 
       if (!foundCart) {
         throw new Error("Cart not found");
@@ -120,7 +148,11 @@ export class CartService {
 
   async updateProductQuantity(cartId, productId, quantity) {
     try {
+<<<<<<< HEAD
       const foundCart = await CartModel.findOne({ id: cartId });
+=======
+      const foundCart = await CartModel.findOne({ _id: cartId });
+>>>>>>> 9460772 (Preentrega Nº 3)
 
       if (!foundCart) {
         throw new Error("Cart not found");
@@ -148,7 +180,11 @@ export class CartService {
 
   async clearCart(cartId) {
     try {
+<<<<<<< HEAD
       const foundCart = await CartModel.findOne({ id: cartId });
+=======
+      const foundCart = await CartModel.findOne({ _id: cartId });
+>>>>>>> 9460772 (Preentrega Nº 3)
 
       if (!foundCart) {
         throw new Error("Cart not found");
@@ -161,4 +197,75 @@ export class CartService {
       throw new Error("Error clearing cart");
     }
   }
+<<<<<<< HEAD
+=======
+
+  async purchaseCart(cartId, purchaserEmail) {
+    try {
+      const foundCart = await CartModel.findOne({ _id: cartId }).populate(
+        "products.id"
+      );
+
+      if (!foundCart) {
+        throw new Error("Cart not found");
+      }
+
+      const productsWithInsufficientStock = [];
+
+      for (const product of foundCart.products) {
+        const productFromDB = await ProductModel.findById(product.id._id);
+
+        if (!productFromDB || productFromDB.stock < product.quantity) {
+          productsWithInsufficientStock.push(product.id._id);
+        } else {
+          productFromDB.stock -= product.quantity;
+          await productFromDB.save();
+        }
+      }
+
+      foundCart.products = foundCart.products.filter(
+        (product) => !productsWithInsufficientStock.includes(product.id._id)
+      );
+
+      await foundCart.save();
+
+      const totalAmount = await this.calculateTotalAmount(foundCart.products);
+
+      const ticket = new TicketModel({
+        code: generateTicketCode(),
+        purchase_datetime: new Date(),
+        amount: totalAmount,
+        purchaser: purchaserEmail, // Asegúrate de reemplazar "userId" con la propiedad correcta
+      });
+
+      await ticket.save();
+
+      await this.clearCart(cartId);
+
+      return ticket._id;
+    } catch (error) {
+      throw new Error("Error al realizar la compra: " + error.message);
+    }
+  }
+
+  async calculateTotalAmount(cartProducts) {
+    try {
+      let totalAmount = 0;
+
+      for (const cartProduct of cartProducts) {
+        const product = await ProductModel.findById(cartProduct.id);
+
+        if (!product) {
+          throw new Error("Product not found");
+        }
+
+        totalAmount += product.price * cartProduct.quantity;
+      }
+
+      return totalAmount; // Devuelve el valor numérico calculado
+    } catch (error) {
+      throw new Error("Error calculating total amount");
+    }
+  }
+>>>>>>> 9460772 (Preentrega Nº 3)
 }

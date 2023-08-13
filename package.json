@@ -4,8 +4,13 @@
   "description": "",
   "main": "app.js",
   "scripts": {
+<<<<<<< HEAD
     "start": "node app.js",
     "dev": "nodemon app.js",
+=======
+    "start": "node app.js PROD",
+    "dev": "nodemon app.js DEV",
+>>>>>>> 9460772 (Preentrega Nº 3)
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

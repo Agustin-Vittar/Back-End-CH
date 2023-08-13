@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import express from "express";
 import { Router } from "express";
 import { UserModel } from "../dao/models/user.model.js";
@@ -45,12 +46,27 @@ loginRouter.post(
 loginRouter.get("/fail", async (req, res) => {
   res.render("error-page");
 });
+=======
+import passport from "passport";
+import { LoginController } from "../controller/login-controller.js";
+import { Router } from "express";
+
+export const loginRouter = Router();
+const loginController = new LoginController();
+
+loginRouter.post("/register", loginController.registerUser);
+
+loginRouter.post("/login", loginController.loginUser);
+
+loginRouter.get("/fail", loginController.showFailPage);
+>>>>>>> 9460772 (Preentrega Nº 3)
 
 loginRouter.get(
   "/github",
   passport.authenticate("github", { scope: ["user: email"] })
 );
 
+<<<<<<< HEAD
 loginRouter.get(
   "/githubcallback",
   passport.authenticate("github", { failureRedirect: "/login" }),
@@ -125,3 +141,8 @@ loginRouter.post("/login", async (req, res) => {
   }
 });
  */
+=======
+loginRouter.get("/githubcallback", loginController.githubCallback);
+
+loginRouter.get("/current", loginController.getCurrentSession);
+>>>>>>> 9460772 (Preentrega Nº 3)
