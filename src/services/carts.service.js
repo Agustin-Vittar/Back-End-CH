@@ -1,10 +1,7 @@
 import { CartModel } from "../dao/models/carts.model.js";
 import { ProductModel } from "../dao/models/products.model.js";
-<<<<<<< HEAD
-=======
 import { TicketModel } from "../dao/models/ticket.model.js";
 import { generateTicketCode } from "../utils.js";
->>>>>>> 9460772 (Preentrega Nº 3)
 import { ProductService } from "./products.service.js";
 
 const productService = new ProductService();
@@ -22,10 +19,6 @@ export class CartService {
   async generateCart() {
     try {
       const newCart = {
-<<<<<<< HEAD
-        id: await this.generateID(),
-=======
->>>>>>> 9460772 (Preentrega Nº 3)
         products: [],
       };
 
@@ -36,17 +29,11 @@ export class CartService {
     }
   }
 
-<<<<<<< HEAD
-  async getCartID(id) {
-    try {
-      const foundCart = await CartModel.findOne({ id }).populate("products.id");
-=======
   async getCartID(cartId) {
     try {
       const foundCart = await CartModel.findOne({ _id: cartId }).populate(
         "products.id"
       );
->>>>>>> 9460772 (Preentrega Nº 3)
 
       if (!foundCart) {
         throw new Error("Cart not found");
@@ -60,11 +47,7 @@ export class CartService {
 
   async addProductsCart(cartId, productId) {
     try {
-<<<<<<< HEAD
-      const foundCart = await CartModel.findOne({ id: cartId });
-=======
       const foundCart = await CartModel.findOne({ _id: cartId });
->>>>>>> 9460772 (Preentrega Nº 3)
 
       if (!foundCart) {
         throw new Error("Cart not found");
@@ -100,11 +83,7 @@ export class CartService {
 
   async removeProductFromCart(cartId, productId) {
     try {
-<<<<<<< HEAD
-      const foundCart = await CartModel.findOne({ id: cartId });
-=======
       const foundCart = await CartModel.findOne({ _id: cartId });
->>>>>>> 9460772 (Preentrega Nº 3)
 
       if (!foundCart) {
         throw new Error("Cart not found");
@@ -128,11 +107,7 @@ export class CartService {
 
   async updateCartProducts(cartId, newProducts) {
     try {
-<<<<<<< HEAD
-      const foundCart = await CartModel.findOne({ id: cartId });
-=======
       const foundCart = await CartModel.findOne({ _id: cartId });
->>>>>>> 9460772 (Preentrega Nº 3)
 
       if (!foundCart) {
         throw new Error("Cart not found");
@@ -148,11 +123,7 @@ export class CartService {
 
   async updateProductQuantity(cartId, productId, quantity) {
     try {
-<<<<<<< HEAD
-      const foundCart = await CartModel.findOne({ id: cartId });
-=======
       const foundCart = await CartModel.findOne({ _id: cartId });
->>>>>>> 9460772 (Preentrega Nº 3)
 
       if (!foundCart) {
         throw new Error("Cart not found");
@@ -180,11 +151,7 @@ export class CartService {
 
   async clearCart(cartId) {
     try {
-<<<<<<< HEAD
-      const foundCart = await CartModel.findOne({ id: cartId });
-=======
       const foundCart = await CartModel.findOne({ _id: cartId });
->>>>>>> 9460772 (Preentrega Nº 3)
 
       if (!foundCart) {
         throw new Error("Cart not found");
@@ -197,8 +164,6 @@ export class CartService {
       throw new Error("Error clearing cart");
     }
   }
-<<<<<<< HEAD
-=======
 
   async purchaseCart(cartId, purchaserEmail) {
     try {
@@ -267,5 +232,4 @@ export class CartService {
       throw new Error("Error calculating total amount");
     }
   }
->>>>>>> 9460772 (Preentrega Nº 3)
 }

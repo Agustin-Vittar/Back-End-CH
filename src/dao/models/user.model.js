@@ -28,12 +28,8 @@ const schema = new Schema({
     max: 100,
   },
   cart: {
-<<<<<<< HEAD
-    type: String,
-=======
     type: Schema.Types.ObjectId,
     ref: "carts",
->>>>>>> 9460772 (Preentrega Nº 3)
   },
 });
 

@@ -1,18 +1,3 @@
-<<<<<<< HEAD
-export function checkUser(req, res, next) {
-  if (req.session.role === "user") {
-    return next();
-  }
-  return res.status(401).render("error-page");
-}
-
-export function checkAdmin(req, res, next) {
-  if (req.session.role === "admin") {
-    return next();
-  }
-  return res.status(403).render("error-page");
-}
-=======
 export function checkUserRole(role) {
   return (req, res, next) => {
     if (req.session && req.session.user && req.session.user.role === role) {
@@ -25,4 +10,3 @@ export function checkUserRole(role) {
 
 export const authorizeAdmin = checkUserRole("admin");
 export const authorizeUser = checkUserRole("user");
->>>>>>> 9460772 (Preentrega Nº 3)

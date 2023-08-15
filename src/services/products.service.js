@@ -23,11 +23,7 @@ export class ProductService {
     }
   }
 
-<<<<<<< HEAD
-  async updateProduct(id, updates) {
-=======
   async updateProducts(id, updates) {
->>>>>>> 9460772 (Preentrega Nº 3)
     try {
       const product = await ProductModel.findById(id);
       if (!product) {
@@ -63,11 +59,7 @@ export class ProductService {
       await product.save();
       return product;
     } catch (error) {
-<<<<<<< HEAD
-      throw new Error(`Error updating product with id: ${id}`);
-=======
       return error;
->>>>>>> 9460772 (Preentrega Nº 3)
     }
   }
 

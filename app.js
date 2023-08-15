@@ -74,11 +74,8 @@ app.use("/api/sessions", loginRouter);
 
 app.use("/", viewRouter);
 
-<<<<<<< HEAD
-=======
 app.use("/realtime", productController);
 
->>>>>>> 9460772 (Preentrega Nº 3)
 const httpServer = app.listen(port, () => {
   console.log(`Server running on port http://localhost:${port}`);
 });
@@ -94,13 +91,8 @@ socketServer.on("connection", async (socket) => {
 
   socket.on("msg_front_to_back", async (msg) => {
     const msgCreated = await MsgModel.create(msg);
-<<<<<<< HEAD
-    const msgs = await MsgModel.find({});
-    socketServer.sockets.emit("all_msgs", msgs);
-=======
     const updatedMsgs = await MsgModel.find({});
     socketServer.sockets.emit("all_msgs", updatedMsgs);
->>>>>>> 9460772 (Preentrega Nº 3)
   });
 });
 

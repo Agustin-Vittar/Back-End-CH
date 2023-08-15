@@ -1,12 +1,8 @@
 import { Router } from "express";
 import { ProductModel } from "../dao/models/products.model.js";
 import { CartService } from "../services/carts.service.js";
-<<<<<<< HEAD
-import { checkAdmin, checkUser } from "../dao/middlewares/auth.js";
-=======
 import { authorizeAdmin, authorizeUser } from "../dao/middlewares/auth.js";
 import { UserModel } from "../dao/models/user.model.js";
->>>>>>> 9460772 (Preentrega Nº 3)
 
 export const viewRouter = Router();
 const cartService = new CartService();
@@ -31,12 +27,9 @@ viewRouter.get("/productos", async (req, res) => {
 
     const products = await ProductModel.paginate(searchOptions, options);
 
-<<<<<<< HEAD
-=======
     const user = await UserModel.findOne({ email: email }); // Ajusta esto según tu modelo y campos
     const cartID = user && user.cart ? user.cart._id.toString() : null;
 
->>>>>>> 9460772 (Preentrega Nº 3)
     const productos = products.docs.map((products) => {
       return {
         title: products.title,
@@ -57,10 +50,7 @@ viewRouter.get("/productos", async (req, res) => {
       email: email,
       age: age,
       role: role,
-<<<<<<< HEAD
-=======
       cartID: cartID,
->>>>>>> 9460772 (Preentrega Nº 3)
       productos: productos,
       totalPages: products.totalPages,
       prevPage: products.prevPage,
@@ -77,11 +67,7 @@ viewRouter.get("/productos", async (req, res) => {
 
 viewRouter.get("/carts/:cid", async (req, res) => {
   try {
-<<<<<<< HEAD
-    const cartId = Number(req.params.cid);
-=======
     const cartId = req.params.cid;
->>>>>>> 9460772 (Preentrega Nº 3)
     const cart = await cartService.getCartID(cartId);
     const cartProduct = cart.products.map((prod) => prod.toJSON());
 
@@ -123,11 +109,7 @@ viewRouter.get("/logout", (req, res) => {
   }
 });
 
-<<<<<<< HEAD
-viewRouter.get("/profile", checkUser, (req, res) => {
-=======
 viewRouter.get("/profile", authorizeUser, (req, res) => {
->>>>>>> 9460772 (Preentrega Nº 3)
   try {
     res.status(200).render("profile");
   } catch (error) {
@@ -135,11 +117,7 @@ viewRouter.get("/profile", authorizeUser, (req, res) => {
   }
 });
 
-<<<<<<< HEAD
-viewRouter.get("/admin", checkAdmin, (req, res) => {
-=======
 viewRouter.get("/admin", authorizeAdmin, (req, res) => {
->>>>>>> 9460772 (Preentrega Nº 3)
   try {
     const { role } = req.session;
     res.status(200).render("admin", {

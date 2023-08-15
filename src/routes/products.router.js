@@ -4,10 +4,7 @@ import faker from "faker";
 
 //import { ProductManager } from "../productManager.js";
 import { ProductController } from "../controller/products-controller.js";
-<<<<<<< HEAD
-=======
 import { authorizeAdmin } from "../dao/middlewares/auth.js";
->>>>>>> 9460772 (Preentrega Nº 3)
 
 export const productRouter = Router();
 //const productManager = new ProductManager();
@@ -20,19 +17,11 @@ productRouter.get("/", productController.getAllProducts);
 
 productRouter.get("/:pid", productController.getProductByID);
 
-<<<<<<< HEAD
-productRouter.put("/:pid", productController.updateProduct);
-
-productRouter.post("/", productController.createProduct);
-
-productRouter.delete("/:pid", productController.deleteProduct);
-=======
 productRouter.put("/:pid", authorizeAdmin, productController.updateProduct);
 
 productRouter.post("/", authorizeAdmin, productController.createProduct);
 
 productRouter.delete("/:pid", authorizeAdmin, productController.deleteProduct);
->>>>>>> 9460772 (Preentrega Nº 3)
 
 /* const numObjects = 8; // Número de objetos aleatorios a generar
 const randomCode = faker.random.number({ min: 10000, max: 99999 });
