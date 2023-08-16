@@ -31,11 +31,11 @@
 
     <button
       class="add-cart"
-      onclick="addToCart('{{cartID}}', '{{this.id}}')"
+      onclick="addToCart('{{this.cartID}}', '{{this.id}}')"
     >Agregar al carrito</button>
     <hr />
   {{/each}}
-  <a href="http://localhost:8080/carts/{{this.cartID}}">Ver el Carrito</a>
+  <a href="http://localhost:8080/carts/{{cartID}}">Ver el Carrito</a>
   <hr />
   <br />
   totalPages:
