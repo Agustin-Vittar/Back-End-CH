@@ -4,6 +4,10 @@ import handlebars from "express-handlebars";
 import session from "express-session";
 import MongoStore from "connect-mongo";
 import dotenv from "dotenv";
+import passport from "passport";
+import nodemailer from "nodemailer";
+import twilio from "twilio";
+import errorHandler from "./src/dao/middlewares/error.js";
 import { ProductManager } from "./src/dao/productManager.js";
 import { cartsRouter } from "./src/routes/carts.router.js";
 import { productRouter } from "./src/routes/products.router.js";
@@ -14,12 +18,10 @@ import { Server } from "socket.io";
 import { connectMongo } from "./src/utils.js";
 import { MsgModel } from "./src/dao/models/msgs.model.js";
 import { iniPassport } from "./src/config/passport.config.js";
-import passport from "passport";
-import nodemailer from "nodemailer";
-import twilio from "twilio";
 import { entorno } from "./src/config/env-config.js";
 
 import { productController } from "./src/routes/productsRealtime.router.js";
+import { mockingproductsrouter } from "./src/routes/mockingproducts.js";
 
 //console.log(entorno);
 dotenv.config();
@@ -99,12 +101,15 @@ app.use(passport.session());
 connectMongo();
 
 // Config Handlebars
+
 app.engine("handlebars", handlebars.engine());
 app.set("views", __dirname + "/views");
 app.set("view engine", "handlebars");
 
 app.use(express.static(__dirname + "/public"));
 const productManager = new ProductManager();
+
+// Endpoints
 
 app.use("/api/products", productRouter);
 
@@ -115,6 +120,10 @@ app.use("/api/sessions", loginRouter);
 app.use("/", viewRouter);
 
 app.use("/realtime", productController);
+
+app.use("/mockingproducts", mockingproductsrouter);
+
+app.use(errorHandler);
 
 const httpServer = app.listen(port, () => {
   console.log(`Server running on port http://localhost:${port}`);
