@@ -1,7 +1,7 @@
 import { CartModel } from "../dao/models/carts.model.js";
 import { ProductModel } from "../dao/models/products.model.js";
 import { TicketModel } from "../dao/models/ticket.model.js";
-import { generateTicketCode } from "../utils.js";
+import { generateTicketCode } from "../utils/utils.js";
 import { ProductService } from "./products.service.js";
 
 const productService = new ProductService();

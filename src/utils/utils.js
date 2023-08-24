@@ -2,7 +2,8 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { connect } from "mongoose";
 import bcrypt from "bcrypt";
-import { entorno } from "./config/env-config.js";
+import { entorno } from "../config/env-config.js";
+import { loggerDev } from "./logger.js";
 
 export const __filename = fileURLToPath(import.meta.url);
 export const __dirname = path.dirname(__filename);
@@ -11,9 +12,9 @@ export async function connectMongo() {
   try {
     await connect(entorno.MONGO_URL);
 
-    console.log("plug to mongo!");
+    loggerDev.info("plug to mongo!");
   } catch (error) {
-    console.log(error);
+    loggerDev.error(error);
     throw "can not connect to the db";
   }
 }

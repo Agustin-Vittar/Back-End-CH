@@ -1,6 +1,7 @@
-import { isValidPassword, createHash } from "../utils.js";
+import { isValidPassword, createHash } from "../utils/utils.js";
 import { UserModel } from "../dao/models/user.model.js";
 import { CartModel } from "../dao/models/carts.model.js";
+import { loggerDev } from "../utils/logger.js";
 
 export class LoginService {
   async registerUser(userData) {
@@ -34,10 +35,10 @@ export class LoginService {
 
       await userCreated.save();
 
-      console.log("User registration successful");
+      loggerDev.info("User registration successful");
       return userCreated;
     } catch (error) {
-      console.log("Error in registerUser:", error);
+      loggerDev.error("Error in registerUser:", error);
       throw error;
     }
   }
@@ -51,7 +52,7 @@ export class LoginService {
         return null;
       }
     } catch (error) {
-      console.log("Error in loginUser", error);
+      loggerDev.error("Error in loginUser", error);
       throw error;
     }
   }

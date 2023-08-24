@@ -2,6 +2,7 @@ import LoginDTO from "../dao/DTOs/login.dto.js";
 import { CartService } from "../services/carts.service.js";
 import { LoginService } from "../services/login-service.js";
 import passport from "passport";
+import { loggerDev } from "../utils/logger.js";
 
 export class LoginController {
   constructor() {
@@ -15,7 +16,7 @@ export class LoginController {
       { failureRedirect: "/api/sessions/fail" },
       async (err, user) => {
         if (err) {
-          console.log("Error in login:", err);
+          loggerDev.error("Error in login:", err);
           return res
             .status(500)
             .send({ status: "Error", error: "Login failed" });
@@ -53,7 +54,7 @@ export class LoginController {
 
       res.status(200).redirect("/login");
     } catch (error) {
-      console.log(error);
+      loggerDev.error(error);
       res.status(500).send({ status: "Error", error: "Registration failed" });
     }
   };
@@ -64,7 +65,7 @@ export class LoginController {
       { failureRedirect: "/login" },
       async (err, user) => {
         if (err) {
-          console.log("Error in GitHub authentication:", err);
+          loggerDev.error("Error in GitHub authentication:", err);
           return res
             .status(500)
             .send({ status: "Error", error: "GitHub authentication failed" });
@@ -78,7 +79,7 @@ export class LoginController {
           req.session.user = user;
           res.redirect("/productos");
         } catch (error) {
-          console.log("Error in GitHub authentication callback:", error);
+          loggerDev.error("Error in GitHub authentication callback:", error);
           res.status(500).send({
             status: "Error",
             error: "GitHub authentication callback failed",

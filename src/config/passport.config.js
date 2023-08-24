@@ -1,8 +1,9 @@
 import passport from "passport";
 import local from "passport-local";
-import { createHash, isValidPassword } from "../utils.js";
+import { createHash, isValidPassword } from "../utils/utils.js";
 import { UserModel } from "../dao/models/user.model.js";
 import GitHubStrategy from "passport-github2";
+import { loggerDev } from "../utils/logger.js";
 const LocalStrategy = local.Strategy;
 
 export function iniPassport() {
@@ -38,13 +39,13 @@ export function iniPassport() {
 
           // Validar campos obligatorios
           if (!email || !firstName || !lastName || !age || !password) {
-            console.log("Missing required fields");
+            loggerDev.info("Missing required fields");
             return done(null, false);
           }
 
           let user = await UserModel.findOne({ email: username });
           if (user) {
-            console.log("User already exist");
+            loggerDev.info("User already exist");
             return done(null, false);
           }
 
@@ -57,12 +58,11 @@ export function iniPassport() {
             role: "user",
           };
           let userCreated = await UserModel.create(newUser);
-          console.log(userCreated);
-          console.log("User registration succesful");
+          loggerDev.info("User registration succesful");
           return done(null, userCreated);
         } catch (error) {
-          console.log("Error in register");
-          console.log(error);
+          loggerDev.error("Error in register");
+          loggerDev.error(error);
           return done(error);
         }
       }
@@ -78,7 +78,7 @@ export function iniPassport() {
         callbackURL: "http://localhost:8080/api/sessions/githubcallback",
       },
       async (accesToken, _, profile, done) => {
-        console.log(profile);
+        loggerDev.info(profile);
         try {
           const res = await fetch("https://api.github.com/user/emails", {
             headers: {
@@ -88,7 +88,7 @@ export function iniPassport() {
             },
           });
           const emails = await res.json();
-          console.log(emails);
+          loggerDev.info(emails);
           const emailDetail = emails.find((email) => email.verified == true);
 
           if (!emailDetail) {
@@ -108,15 +108,15 @@ export function iniPassport() {
               role: "user",
             };
             let userCreated = await UserModel.create(newUser);
-            console.log("User Registration successful");
+            loggerDev.info("User Registration successful");
             return done(null, userCreated);
           } else {
-            console.log("User already exist");
+            loggerDev.warn("User already exist");
             return done(null, user);
           }
         } catch (error) {
-          console.log("Error in auth github");
-          console.log(error);
+          loggerDev.error("Error in auth github");
+          loggerDev.error(error);
           return done(error);
         }
       }

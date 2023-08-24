@@ -1,4 +1,3 @@
-//@ts-check
 import express from "express";
 import handlebars from "express-handlebars";
 import session from "express-session";
@@ -13,15 +12,16 @@ import { cartsRouter } from "./src/routes/carts.router.js";
 import { productRouter } from "./src/routes/products.router.js";
 import { viewRouter } from "./src/routes/view.router.js";
 import { loginRouter } from "./src/routes/login.router.js";
-import { __dirname } from "./src/utils.js";
+import { __dirname } from "./src/utils/utils.js";
 import { Server } from "socket.io";
-import { connectMongo } from "./src/utils.js";
+import { connectMongo } from "./src/utils/utils.js";
 import { MsgModel } from "./src/dao/models/msgs.model.js";
 import { iniPassport } from "./src/config/passport.config.js";
 import { entorno } from "./src/config/env-config.js";
 
 import { productController } from "./src/routes/productsRealtime.router.js";
 import { mockingproductsrouter } from "./src/routes/mockingproducts.js";
+import { addLogger } from "./src/utils/logger.js";
 
 //console.log(entorno);
 dotenv.config();
@@ -30,9 +30,17 @@ const port = entorno.PORT;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-console.log({
-  user: process.env.GOOGLE_EMAIL,
-  pass: process.env.GOOGLE_PASSWORD,
+app.use(addLogger);
+
+app.get("/loggerTest", (req, res) => {
+  req.logger.debug("Debug log");
+  req.logger.info("Info log");
+  req.logger.warn("Warning log");
+  req.logger.error("Error log");
+
+  res.send({
+    messages: "Logs have been added. Check the console or logs file.",
+  });
 });
 
 app.use(

@@ -1,4 +1,5 @@
 import { CartService } from "../services/carts.service.js";
+import { loggerDev } from "../utils/logger.js";
 
 export class CartController {
   constructor() {
@@ -121,7 +122,7 @@ export class CartController {
 
       const purchaserEmail = req.session.user && req.session.user.email;
 
-      console.log(purchaserEmail);
+      loggerDev.info(purchaserEmail);
 
       if (!purchaserEmail) {
         return res
@@ -138,7 +139,7 @@ export class CartController {
       });
     } catch (error) {
       res.status(500).json({ status: "Error", error: error.message });
-      console.log(error);
+      loggerDev.error(error);
     }
   };
 }

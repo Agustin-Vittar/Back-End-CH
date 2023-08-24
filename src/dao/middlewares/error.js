@@ -1,7 +1,7 @@
 import EErrors from "../../services/errors/enums.js";
 
 export default (error, req, res, next) => {
-  console.log(error.cause);
+  loggerDev.error(error.cause);
 
   switch (error.code) {
     // ERROR 1

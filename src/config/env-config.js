@@ -1,14 +1,17 @@
 import dotenv from "dotenv";
+import { loggerDev } from "../utils/logger.js";
 
 if (process.argv[2] != "DEV" && process.argv[2] != "PROD") {
-  console.log("No está bien el argumento!");
+  loggerDev.warn("No está bien el argumento!");
   process.exit();
 }
 
 dotenv.config({
   path: process.argv[2] === "DEV" ? "./.env.development" : "./.env.production",
 });
-console.log(process.env.PORT, process.env.MONGO_URL);
+loggerDev.info(
+  "Port: " + process.env.PORT + " || " + "Mongo URL:" + process.env.MONGO_URL
+);
 
 export const entorno = {
   MODE: process.argv[2],
