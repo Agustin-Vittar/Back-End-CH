@@ -1,0 +1,92 @@
+paths:
+  /api/products:
+    get:
+      summary: Obtiene todos los productos
+      tags:
+        - Products
+      responses:
+        "200":
+          description: Los usuarios fueron devueltos satisfactoriamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Product"
+        "500":
+          description: Error del servidor. Usualmente generando la query o falla la conexion a la DB
+  /api/products/{pid}:
+    get:
+      summary: Obtiene un producto
+      tags:
+        - Products
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: ID del producto que se busca
+          schema:
+            $type: String
+      responses:
+        "200":
+          description: Producto encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/Product"
+components:
+  schemas:
+    Success:
+      type: object
+      properties:
+        status:
+          type: String
+          description: success or error
+        message:
+          type: String
+          description: aclarando que ocurrio
+      example:
+        status: success
+        message: User updated
+    Product:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: ID auto generado by mongo
+        title:
+          type: String
+          description: Título del producto
+        description:
+          type: String
+          description: Descripción del producto
+        code:
+          type: Number
+          description: Código único del producto
+        price:
+          type: Number
+          description: Precio del producto
+        status:
+          type: Boolean
+        stock:
+          type: Number
+          description: Cantidad de unidades del producto
+        category:
+          type: String
+          description: Categoría a la que pertenece el producto
+        thumbnail:
+          type: Array
+          description: Array de imágenes del producto
+      example:
+        title: "Intelligent Wooden Chicken"
+        description: "Qui velit incidunt explicabo vel dolorem est."
+        code: 77866
+        price: 451
+        status: false
+        stock: 51148
+        category: "Garden"
+        thumbnail:
+          - "http://placeimg.com/640/480"
+          - "http://placeimg.com/640/480"
+          - "http://placeimg.com/640/480"
+        id: "648908a56639813678eabc9a"

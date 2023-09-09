@@ -1,0 +1,180 @@
+paths:
+  /api/carts:
+    post:
+      summary: Crear un carrito
+      tags:
+        - Cart
+      responses:
+        "200":
+          description: Carrito creado correctamente
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/Success"
+        "500":
+          description: Error del servidor. Usualmente generando la query o falla la conexion a la DB
+  /api/carts/{cid}:
+    get:
+      summary: Obtiene un carrito
+      tags:
+        - Cart
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: ID del carrito que se busca
+          schema:
+            $type: String
+      responses:
+        "200":
+          description: Carrito encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/Cart"
+        "500":
+          description: Error del servidor. Usualmente generando la query o falla la conexion a la DB
+  api/carts/{cid}/product/{pid}:
+    delete:
+      summary: Elimina un producto del carrito
+      tags:
+        - Cart
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: ID del carrito
+          schema:
+            $type: String
+        - name: pid
+          in: path
+          required: true
+          description: ID del carrito
+          schema:
+            $type: String
+      responses:
+        "200":
+          description: Carrito encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/Success"
+        "500":
+          description: Error del servidor. Usualmente generando la query o falla la conexion a la DB
+    put:
+      summary: Modifica la cantidad de un producto del carrito
+      tags:
+        - Cart
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: ID del carrito
+          schema:
+            $type: String
+        - name: pid
+          in: path
+          required: true
+          description: ID del carrito
+          schema:
+            $type: String
+      responses:
+        "200":
+          description: Carrito modificado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/Success"
+        "500":
+          description: Error del servidor. Usualmente generando la query o falla la conexion a la DB
+  api/carts/{cid}:
+    put:
+      summary: Modifica el producto del carrito
+      tags:
+        - Cart
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: ID del carrito
+          schema:
+            $type: String
+      responses:
+        "200":
+          description: Producto Modificado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/Success"
+        "500":
+          description: Error del servidor. Usualmente generando la query o falla la conexion a la DB
+    delete:
+      summary: Limpia el carrito
+      tags:
+        - Cart
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: ID del carrito
+          schema:
+            $type: String
+      responses:
+        "200":
+          description: Carrito vaciado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/Success"
+        "500":
+          description: Error del servidor. Usualmente generando la query o falla la conexion a la DB
+components:
+  schemas:
+    Success:
+      type: object
+      properties:
+        status:
+          type: String
+          description: success or error
+        message:
+          type: String
+          description: aclarando que ocurrio
+      example:
+        status: success
+        message: Cart created-updated-deleted
+    Cart:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: ID auto generado by mongo
+        products:
+          type: Array
+          despriction: Array de productos del carrito
+      example:
+        _id: "64d7e51e7d4bd0e52cd8a08f"
+        products:
+          - "648908a56639813678eabc9e"
+          - "648908a56639813678eabc9f"
+
+  requestBodies:
+    updateUser:
+      type: object
+      properties:
+        first_name:
+          type: String
+          description: Primer nombre
+        last_name:
+          type: String
+          description: Apellido
+        email:
+          type: String
+          description: Email de usuario
+        password:
+          type: String
+          description: Password hasheado del user
+      example:
+        first_name: Adrian
+        last_name: Campo
+        email: atrian@gmail.com
+        password: $2b$10$Cf.uErjQ/lEzypTNfyE1IuFGxVXSRqGzjFWBYwL9KLK4Fe29kvu.e

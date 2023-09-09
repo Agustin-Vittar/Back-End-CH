@@ -7,6 +7,7 @@ import passport from "passport";
 import nodemailer from "nodemailer";
 import twilio from "twilio";
 import errorHandler from "./src/dao/middlewares/error.js";
+import path from "path";
 import { ProductManager } from "./src/dao/productManager.js";
 import { cartsRouter } from "./src/routes/carts.router.js";
 import { productRouter } from "./src/routes/products.router.js";
@@ -18,10 +19,11 @@ import { connectMongo } from "./src/utils/utils.js";
 import { MsgModel } from "./src/dao/models/msgs.model.js";
 import { iniPassport } from "./src/config/passport.config.js";
 import { entorno } from "./src/config/env-config.js";
-
+import swaggerUiExpress from "swagger-ui-express";
 import { productController } from "./src/routes/productsRealtime.router.js";
 import { mockingproductsrouter } from "./src/routes/mockingproducts.js";
 import { addLogger } from "./src/utils/logger.js";
+import swaggerJSDoc from "swagger-jsdoc";
 
 //console.log(entorno);
 dotenv.config();
@@ -54,6 +56,22 @@ app.use(
     saveUninitialized: true,
   })
 );
+
+// Swagger
+
+const swaggerOptions = {
+  definition: {
+    openapi: "3.0.1",
+    info: {
+      title: "Documentación Productos y Carrito",
+      description: "Documentación realizada a los endpoints sin auth",
+    },
+  },
+  apis: [`${__dirname}/../docs/**/*.yaml`],
+};
+
+const specs = swaggerJSDoc(swaggerOptions);
+app.use("/apidocs", swaggerUiExpress.serve, swaggerUiExpress.setup(specs));
 
 // Mailer
 
@@ -111,7 +129,8 @@ connectMongo();
 // Config Handlebars
 
 app.engine("handlebars", handlebars.engine());
-app.set("views", __dirname + "/views");
+app.set("views", path.join(__dirname, "../views"));
+
 app.set("view engine", "handlebars");
 
 app.use(express.static(__dirname + "/public"));

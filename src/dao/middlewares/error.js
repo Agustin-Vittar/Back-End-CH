@@ -1,7 +1,7 @@
 import EErrors from "../../services/errors/enums.js";
 
 export default (error, req, res, next) => {
-  loggerDev.error(error.cause);
+  console.log(error.cause);
 
   switch (error.code) {
     // ERROR 1
@@ -35,6 +35,7 @@ export default (error, req, res, next) => {
         .send({ status: "Error", error: error.name, cause: error.cause });
       break;
     default:
+      console.error(error);
       res.status(500).send({ status: "Error", error: "Unhandled error" });
       break;
   }
