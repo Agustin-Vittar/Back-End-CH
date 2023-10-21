@@ -25,13 +25,13 @@ import { mockingproductsrouter } from "./src/routes/mockingproducts.js";
 import { addLogger } from "./src/utils/logger.js";
 import swaggerJSDoc from "swagger-jsdoc";
 
-//console.log(entorno);
 dotenv.config();
 const app = express();
 const port = entorno.PORT;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Logger
 app.use(addLogger);
 
 app.get("/loggerTest", (req, res) => {
@@ -133,7 +133,7 @@ app.set("views", path.join(__dirname, "../views"));
 
 app.set("view engine", "handlebars");
 
-app.use(express.static(__dirname + "/public"));
+app.use(express.static(path.join(__dirname, "../public")));
 const productManager = new ProductManager();
 
 // Endpoints

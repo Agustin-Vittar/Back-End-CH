@@ -122,7 +122,7 @@ export class CartController {
 
       const purchaserEmail = req.session.user && req.session.user.email;
 
-      loggerDev.info(purchaserEmail);
+      loggerDev.info("El email es: " + purchaserEmail);
 
       if (!purchaserEmail) {
         return res
@@ -130,7 +130,10 @@ export class CartController {
           .json({ status: "Error", error: "User not authenticated" });
       }
 
-      const ticketId = await this.cartService.purchaseCart(cart);
+      const ticketId = await this.cartService.purchaseCart(
+        cartId,
+        purchaserEmail
+      );
 
       res.status(200).json({
         status: "Success",

@@ -13,7 +13,12 @@
       <li>Categoría: {{this.id.category}}</li>
       <li>Img: {{this.id.thumbnail}}</li>
     </ul>
-  {{/each}}
 
+    <button
+      onclick="buy('{{this.id.id}}', document.getElementById('quantity-{{this.id.id}}').value)"
+    >Comprar</button>
+
+  {{/each}}
+  <hr />
   <a href="http://localhost:8080/productos">Volver a la lista de productos</a>
 </div>

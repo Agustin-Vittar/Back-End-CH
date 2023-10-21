@@ -27,7 +27,7 @@ viewRouter.get("/productos", async (req, res) => {
 
     const products = await ProductModel.paginate(searchOptions, options);
 
-    const user = await UserModel.findOne({ email: email }); // Ajusta esto según tu modelo y campos
+    const user = await UserModel.findOne({ email: email });
     const cartID = user && user.cart ? user.cart._id.toString() : null;
 
     const productos = products.docs.map((products) => {
@@ -41,6 +41,7 @@ viewRouter.get("/productos", async (req, res) => {
         category: products.category,
         thumbnail: products.thumbnail,
         id: products._id.toString(),
+        cartID: cartID,
       };
     });
 

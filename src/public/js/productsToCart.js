@@ -1,7 +1,7 @@
 function addToCart(cartId, productId) {
   console.log("addToCart - cartId:", cartId);
   console.log("addToCart - productId:", productId);
-  /* fetch(`/api/carts/${cartId}/product/${productId}`, {
+  fetch(`/api/carts/${cartId}/product/${productId}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -12,12 +12,12 @@ function addToCart(cartId, productId) {
       if (data.status === "Success") {
         alert("Producto agregado al carrito");
       } else {
-        alert("Error al agregar el producto al carrito1");
+        alert("Error al agregar el producto al carrito");
         throw new Error();
       }
     })
     .catch((error) => {
-      alert("Error al agregar el producto al carrito2");
+      alert("Error al agregar el producto al carrito");
       throw new Error(error);
-    }); */
+    });
 }
